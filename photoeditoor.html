@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Editor</title>
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+
+            width: 100vw;
+            /* height: 100vh; */
+        }
+
+        
+
+       
+        button {
+            padding: 5px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            background-color: rgb(46, 49, 240);
+            color: white;
+            cursor: pointer;
+
+        }
+
+
+        p {
+            margin-top: 30px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+        .txt h1 {
+            text-align: center;
+            color: rgb(46, 49, 240);
+        }
+
+        .txt {
+            text-align: center;
+            /* background-color: red; */
+            /* border: 1px solid black; */
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .b {
+            width: 100px;
+            height: 40px;
+            /* background-color: green; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            position: absolute;
+            top: 5px;
+            right: 0;
+            font-weight: bold;
+        }
+
+        .main-img-container {
+            display: flex;
+            width: 100%;
+        }
+        .pic-div{
+            background-color: red;
+            padding: 5px;
+            width: 50%;
+        }
+        .pic-div img{
+            width: 100%;
+        }
+
+        input {
+            width: 80%;
+            accent-color: rgb(69, 79, 207);
+            height: 5px;
+        }
+
+        .btns {
+            width: 50%;
+            background-color: rgb(211, 211, 211);
+            padding: 7px;
+        }
+
+        .btns>div {
+            /* background-color: green; */
+            width: 95%;
+            position: relative;
+            /* background-color: red; */
+            /* margin: 10px; */
+
+        }
+        .btns>div>div{
+            color: rgb(69, 79, 207);;
+        }
+        .reset{
+            margin-top: 20px;
+            width: 100%;
+            margin-inline: auto;
+            display: block;
+            border-radius: 7px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .main-img-container {
+                flex-direction: column;
+                /* flex-wrap: wrap; */
+                background-color: green;
+            }
+            .pic-div{
+                width: 100%;
+            }
+            .btns{
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main">
+        <div class="txt">
+            <h1>Kapil's Photo Editor</h1>
+
+        </div>
+        <div class="main-img-container">
+            <div class="pic-div">
+                <img id="pic" src="images/hacker.jpg" alt="">
+            </div>
+            <div class="btns">
+                <div class="brightness">
+                    <p>Brightness</p>
+                    <input oninput="updateBrightness()" type="range" id="bri" name="brightness" value="100" min="-100"
+                        max="400" />
+                    <div id="br" class="b">
+                        100
+                    </div>
+                </div>
+
+                <div class="saturation">
+                    <p>Saturation</p>
+                    <input oninput="updateSaturation()" type="range" id="sat" name="saturation" value="100" min="-100"
+                        max="500" />
+                    <div id="st" class="b">
+                        100
+                    </div>
+                </div>
+                <div class="contrast">
+                    <p>Contrast</p>
+                    <input oninput="updateContrast()" type="range" id="cont" name="contrast" value="100" min="-100"
+                        max="500" />
+                    <div id="ct" class="b">
+                        100
+                    </div>
+                </div>
+                <div class="hue">
+                    <p>Hue</p>
+                    <input oninput="updateHue()" type="range" id="hue" name="hue" value="0" min="0" max="360" />
+                    <div id="hue" class="b">
+0
+                    </div>
+                </div>
+                <div>
+                    <button class="reset" onclick="reset()">Reset</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const pic = document.getElementById("pic");
+
+        let brightness = 100;
+        let saturation = 100;
+        let contrast = 100;
+        let hue = 0;
+
+        function reset() {
+            brightness = 100;
+            saturation = 100;
+            contrast = 100;
+            hue = 0;
+            document.getElementById("bri").value = brightness;
+            document.getElementById("sat").value = saturation;
+            document.getElementById("cont").value = contrast;
+            document.getElementById("hue").value = hue;
+
+            pic.style.filter = `brightness(${brightness}%) saturate(${saturation}%) contrast(${contrast}%) hue-rotate(${hue}deg)`;
+            // pic.style.filter = `brightness(100%) saturate(100%) contrast(100%) hue-rotate(0deg)`;
+        }
+        const updateFilters = () => {
+            pic.style.filter = `brightness(${brightness}%) saturate(${saturation}%) contrast(${contrast}%) hue-rotate(${hue}deg)`;
+        }
+
+        const updateBrightness = () => {
+            brightness = document.getElementById("bri").value;
+            updateFilters();
+            document.getElementById("br").innerHTML = brightness;
+        }
+
+        const updateSaturation = () => {
+            saturation = document.getElementById("sat").value;
+            updateFilters();
+            document.getElementById("st").innerHTML = saturation;
+        }
+
+        const updateContrast = () => {
+            contrast = document.getElementById("cont").value;
+            updateFilters();
+            document.getElementById("ct").innerHTML = contrast;
+        }
+
+        const updateHue = () => {
+            hue = document.getElementById("hue").value;
+            updateFilters();
+            document.getElementById("hueValue").innerHTML = hue;
+        }
+    </script>
+</body>
+
+</html>
